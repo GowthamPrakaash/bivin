@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Happy Birthday Bivin!</title>
+	<link rel="icon" href="myicon.jpg" type="image/jpg">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<div id="hero">
+		<video playsinline muted poster="placeholder.jpg" id="myVideo" width="x" height="y">
+			<source src="color.mp4" type="video/mp4">
+		</video>
+		<button type="button" onclick="playVideo()" id="heroButton" class="btn btn-success">Press me</button>
+	</div>
+	<center><canvas width=630 id="canvas1"></canvas></center>
+	<center><img src="happy.png" id="cake" width="0px"></center>
+	<center><canvas width=1000 id="canvas2"></canvas></center>
+	<script type="text/javascript">
+		 $(window).ready(function(){
+		 	$('#hero').show();
+		 });
+		var vid = document.getElementById("myVideo");
+		$("#bivin").hide();
+		function playVideo() { 
+			vid.playbackRate = 2.0;
+		    vid.play();
+		    $("#heroButton").hide();
+		    $('video').on('ended',function(){
+			    	var ctx = document.getElementById("canvas1").getContext("2d"),
+				    dashLen = 220, dashOffset = dashLen, speed = 8,
+				    txt = "Happy Birthday BIVIN", x = 30, i = 0;
+
+					ctx.font = "50px Comic Sans MS, cursive, TSCu_Comic, sans-serif"; 
+					ctx.lineWidth = 5; ctx.lineJoin = "round"; ctx.globalAlpha = 2/3;
+					ctx.strokeStyle = ctx.fillStyle = "#db462b";
+
+					(function loop() {
+						  ctx.clearRect(x, 0, 60, 150);
+						  ctx.setLineDash([dashLen - dashOffset, dashOffset - speed]); // create a long dash mask
+						  dashOffset -= speed;                                         // reduce dash length
+						  ctx.strokeText(txt[i], x, 90);                               // stroke letter
+
+						  if (dashOffset > 0) requestAnimationFrame(loop);             // animate
+						  else {
+						    ctx.fillText(txt[i], x, 90);                               // fill final letter
+						    dashOffset = dashLen;                                      // prep next char
+						    x += ctx.measureText(txt[i++]).width + ctx.lineWidth * Math.random();
+						    ctx.setTransform(1, 0, 0, 1, 0, 3 * Math.random());        // random y-delta
+						    ctx.rotate(Math.random() * 0.005);                         // random rotation
+						    if (i < txt.length) requestAnimationFrame(loop);
+						  }
+					  })();
+					  	
+				$("#cake").animate({
+			        width: '700px'
+			    });
+		    })
+		} 
+	</script>
+</body>
+</html>
